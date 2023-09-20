@@ -1,7 +1,14 @@
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
+import { StyledForm, ButtomStyle } from "./StyledForm";
 import { nanoid } from "nanoid";
+import * as yup from "yup";
 
-export const ContactForm = ({onAdd}) => {
+const schema = yup.object().shape({
+    name: yup.string().required(),
+    number: yup.string().required(),
+});
+
+export const ContactForm = ({ onAdd }) => {
     
     return (
         <Formik
@@ -14,8 +21,9 @@ export const ContactForm = ({onAdd}) => {
                 onAdd({ ...values, id: nanoid() });
                 resetForm();
             }}
+            validationSchema={schema}
         >
-            <Form >
+            <StyledForm>
                 <label>Name</label>
                 <Field
                     type="text"
@@ -32,8 +40,8 @@ export const ContactForm = ({onAdd}) => {
                     title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                     required
                 />
-                <button type="submit">Add contact</button>
-            </Form >
+                <ButtomStyle type="submit">Add contact</ButtomStyle>
+            </StyledForm>
         </Formik>
     );
 };

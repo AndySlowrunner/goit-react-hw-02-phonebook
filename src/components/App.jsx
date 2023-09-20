@@ -1,7 +1,8 @@
 import { Component } from "react";
-import { ContactForm } from "./ContactForm";
-import { ContactList } from "./ContactList";
-import { Filter } from "./ContactFilter";
+import { ContactForm } from "./ContactForm/ContactForm";
+import { ContactList } from "./ContactList/ContactList";
+import { Filter } from "./ContactFilter/ContactFilter";
+import { StyledDiv } from "./ContactForm/StyledForm";
 
 export class App extends Component {   
     state = {
@@ -15,12 +16,18 @@ export class App extends Component {
     };
 
     addContact = newContact => {
+        const isExist = this.state.contacts.some(contact => contact.name === newContact.name);
+        
+        if (isExist) {
+            alert(`${newContact.name} is already in contacts.`);
+            return
+        };
+        
         this.setState(prevState => {
             return {
                 contacts: [...prevState.contacts, newContact]
             }
         });
-        console.log(newContact)
     };
 
     changeTopicFilter = (newTopic) => {
@@ -44,47 +51,19 @@ export class App extends Component {
             contact.name.toLowerCase().includes(filters.toLowerCase()));
         
         return (
-            <div>
+            <StyledDiv>
                 <h1>Phonebook</h1>
                 <ContactForm onAdd={this.addContact} />
                 <h2>Contacts</h2>
                 <Filter
-                    value={this.state.filters}
+                    value={filters}
                     onChange={this.changeTopicFilter}
                 />
                 <ContactList
                     contacts={visibleContacts}
                     onClick={this.handleDelete}
                 />
-            </div>
+            </StyledDiv>
         );
     };
 }
-
-
-
-
-
-
-
-// import { Formik, Field, Form } from "formik";
-// import { Section, ButtomStyle } from "./DivStyle.styled";
-// import * as Yup from 'yup';
-// import { nanoid } from "nanoid";
-
-
-// const initialValue = {
-//   contacts: [],
-//   name: 'user Name',
-// };
-
-// const schema = Yup.object().shape({
-//   contacts: Yup.array().required(),
-//   name: Yup.string().required(),
-// });
-
-// <h1>Contacts</h1>
-// <ul>
-//     <li></li>
-// </ul>
-

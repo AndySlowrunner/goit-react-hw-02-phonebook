@@ -1,12 +1,14 @@
+import { StyledList, StyledUl } from "./StyledList"
+
 export const ContactList = ({ contacts, onClick }) => {
     return (
-        <ul>
+        <StyledUl>
             {contacts.map(({name, number, id}) =>
-                <li key={id}>
+                <StyledList key={id}>
                     <p>{name}:{' ' + number}</p>
                     <button onClick={() => onClick(id)}>Delete</button>
-                </li>
+                </StyledList>
             )}
-        </ul>
+        </StyledUl>
     )
 }
